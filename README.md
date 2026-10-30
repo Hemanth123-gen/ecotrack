@@ -4,6 +4,11 @@ An AI agent that **analyzes**, **understands** and **reduces** carbon footprints
 organizations. Gemini handles the conversation and decides which tools to call; a deterministic Python
 engine does every calculation, so the agent never makes up numbers.
 
+**Live demo: https://fir-projec-d1438.web.app**
+The demo runs the real FastAPI backend inside your browser (Pyodide), so the first load takes 20–40 s and
+your data stays on your device. AI chat and bill scanning need a server-side Gemini key, so they're off in
+the demo; run locally with a key (below) or deploy the server version (see [DEPLOY.md](DEPLOY.md)) to use them.
+
 ## Status
 - [x] Phase 1: emissions engine (factors, units, analysis, what-if, recommendations)
 - [x] Phase 2: Gemini agent, tools, SQLite store, FastAPI
