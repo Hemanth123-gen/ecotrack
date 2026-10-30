@@ -3,6 +3,7 @@ import { ApiError, api, type User } from './api'
 import { authEnabled, onAuthChange, signOut, type AuthUser } from './auth'
 import { ChatPanel, type AskRequest } from './components/ChatPanel'
 import { Dashboard } from './components/Dashboard'
+import { Landing } from './components/Landing'
 import { Leaf, Onboarding } from './components/Onboarding'
 import { SignIn } from './components/SignIn'
 import { load, save } from './storage'
@@ -73,6 +74,7 @@ export default function App() {
   const { user, authUser, loading, error, onCreated, leave } = useSession()
   const [refreshKey, setRefreshKey] = useState(0)
   const [mobileView, setMobileView] = useState<'dashboard' | 'chat'>('dashboard')
+  const [showLanding, setShowLanding] = useState(true)
 
   const refresh = useCallback(() => setRefreshKey((k) => k + 1), [])
 
@@ -82,6 +84,7 @@ export default function App() {
     setMobileView('chat')
   }, [])
 
+  if (showLanding) return <Landing onStart={() => setShowLanding(false)} />
   if (loading) return <div className="min-h-screen grid place-items-center text-muted">Loading…</div>
   if (authEnabled && (!authUser || error)) return <SignIn error={error} onRetry={leave} />
   if (!user) return <Onboarding onCreated={onCreated} defaultName={authUser?.name ?? ''} />
@@ -89,10 +92,10 @@ export default function App() {
   return (
     <div className="min-h-screen lg:h-screen lg:flex lg:flex-col">
       <header className="flex items-center gap-3 border-b border-line bg-surface px-4 py-3 lg:px-6">
-        <span className="flex items-center gap-2 text-accent">
+        <button onClick={() => setShowLanding(true)} className="flex items-center gap-2 text-accent" title="About EcoTrack">
           <Leaf />
           <span className="font-semibold tracking-tight text-ink">EcoTrack</span>
-        </span>
+        </button>
         <span className="hidden text-sm text-muted sm:inline">
           {user.name} · {user.kind === 'organization' ? 'Organization' : 'Personal'} · {user.region}
         </span>
