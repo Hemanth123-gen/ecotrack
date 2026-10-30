@@ -13,6 +13,10 @@
         "headers": [{ "key": "Cache-Control", "value": "no-cache" }]
       },
       {
+        "regex": "^/[^.]*$",
+        "headers": [{ "key": "Cache-Control", "value": "no-cache" }]
+      },
+      {
         "source": "/api/import/csv-template",
         "headers": [
           { "key": "Content-Type", "value": "text/csv; charset=utf-8" },
