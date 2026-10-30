@@ -36,7 +36,9 @@ export function InsightsCard({ user, refreshKey }: { user: User; refreshKey: num
       </ul>
 
       {w.last_week_kg > 0 && w.by_category.length > 0 && (
-        <table className="mt-4 w-full text-sm tabular">
+        <details className="mt-3 text-sm">
+        <summary className="cursor-pointer text-ink-2 hover:text-ink">Compare by category</summary>
+        <table className="mt-2 w-full text-sm tabular">
           <thead className="text-left text-xs text-muted">
             <tr>
               <th className="py-1 font-normal">Category</th>
@@ -61,6 +63,7 @@ export function InsightsCard({ user, refreshKey }: { user: User; refreshKey: num
             ))}
           </tbody>
         </table>
+        </details>
       )}
     </Card>
   )
