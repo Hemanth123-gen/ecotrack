@@ -12,6 +12,7 @@ from google.genai import types
 from pydantic import BaseModel
 
 from ..engine import FactorDB
+from ..llm import generate, model_chain
 from .preview import ImportItem, preview_item
 
 MAX_BYTES = 10 * 1024 * 1024
@@ -92,9 +93,10 @@ def _schema(keys: list[str]) -> dict[str, Any]:
 
 
 class DocumentExtractor:
-    def __init__(self, client: Any, model: str, factors: FactorDB):
+    def __init__(self, client: Any, model: str, factors: FactorDB, fallback_models: list[str] | None = None):
         self.client = client
         self.model = model
+        self.models = model_chain(model, fallback_models or [])
         self.factors = factors
 
     def extract(self, data: bytes, mime_type: str, region: str, today: date | None = None) -> DocumentExtraction:
@@ -111,8 +113,9 @@ class DocumentExtractor:
             response_mime_type="application/json",
             response_json_schema=_schema(self.factors.keys()),
         )
-        response = self.client.models.generate_content(
-            model=self.model,
+        response = generate(
+            self.client,
+            self.models,
             contents=[
                 types.Part.from_bytes(data=data, mime_type=mime_type),
                 f"Factor catalog for region {region}:\n{catalog}\n\nExtract the activities from this document.",

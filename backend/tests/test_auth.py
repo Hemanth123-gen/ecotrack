@@ -107,7 +107,7 @@ def test_rate_limiter_window():
 # --- API in firebase mode ------------------------------------------------------------
 
 def settings(**overrides):
-    base = dict(gemini_api_key=None, gemini_model="m", database_url=":memory:", cors_origins=[],
+    base = dict(gemini_api_key=None, gemini_model="m", gemini_fallback_models=[], database_url=":memory:", cors_origins=[],
                 auth_mode="firebase", firebase_project_id=PROJECT, chat_requests_per_hour=2,
                 document_requests_per_hour=2)
     base.update(overrides)

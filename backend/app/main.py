@@ -108,8 +108,11 @@ def create_app(
     if agent is None or extractor is None:
         client = _gemini_client()
         if client is not None:
-            agent = agent or CarbonAgent(client, store, settings.gemini_model)
-            extractor = extractor or DocumentExtractor(client, settings.gemini_model, store.factors)
+            fallbacks = settings.gemini_fallback_models
+            agent = agent or CarbonAgent(client, store, settings.gemini_model, fallback_models=fallbacks)
+            extractor = extractor or DocumentExtractor(
+                client, settings.gemini_model, store.factors, fallback_models=fallbacks,
+            )
     if settings.auth_mode == "firebase" and verifier is None:
         verifier = FirebaseVerifier(settings.firebase_project_id)
     chat_limiter = RateLimiter(settings.chat_requests_per_hour)

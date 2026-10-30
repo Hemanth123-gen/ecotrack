@@ -13,6 +13,7 @@ load_dotenv(BACKEND_DIR / ".env")
 class Settings:
     gemini_api_key: str | None
     gemini_model: str
+    gemini_fallback_models: list[str]
     database_url: str
     cors_origins: list[str]
     auth_mode: Literal["dev", "firebase"]
@@ -38,6 +39,8 @@ def get_settings() -> Settings:
     return Settings(
         gemini_api_key=_env("GEMINI_API_KEY"),
         gemini_model=_env("GEMINI_MODEL", "gemini-2.5-flash"),
+        # Tried in order when the main model is overloaded or rate-limited
+        gemini_fallback_models=[m for m in (_env("GEMINI_FALLBACK_MODELS", "gemini-2.5-flash") or "").split(",") if m],
         # DATABASE_URL (e.g. Postgres) wins; DATABASE_PATH is a local SQLite file
         database_url=_env("DATABASE_URL") or _env("DATABASE_PATH", str(BACKEND_DIR / "carbon.db")),
         cors_origins=[o for o in os.getenv("CORS_ORIGINS", "http://localhost:5173").split(",") if o],

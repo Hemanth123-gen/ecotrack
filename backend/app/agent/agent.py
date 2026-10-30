@@ -5,6 +5,7 @@ from typing import Any
 from google.genai import types
 from pydantic import BaseModel
 
+from ..llm import generate, model_chain
 from ..store import Store
 from .prompt import build_system_prompt
 from .tools import Toolbox
@@ -23,11 +24,14 @@ class AgentReply(BaseModel):
 
 
 class CarbonAgent:
-    def __init__(self, client: Any, store: Store, model: str, max_steps: int = 8):
+    def __init__(
+        self, client: Any, store: Store, model: str, max_steps: int = 8, fallback_models: list[str] | None = None,
+    ):
         """`client` is a `google.genai.Client` (or anything with the same `models.generate_content`)."""
         self.client = client
         self.store = store
         self.model = model
+        self.models = model_chain(model, fallback_models or [])
         self.max_steps = max_steps
 
     def chat(self, user_id: str, message: str, conversation_id: str | None = None) -> AgentReply:
@@ -48,7 +52,7 @@ class CarbonAgent:
         reply: str | None = None
 
         for _ in range(self.max_steps):
-            response = self.client.models.generate_content(model=self.model, contents=history + new, config=config)
+            response = generate(self.client, self.models, contents=history + new, config=config)
             content = response.candidates[0].content if response.candidates else None
             if content is None or not content.parts:
                 break
