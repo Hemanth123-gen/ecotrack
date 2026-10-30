@@ -16,9 +16,10 @@ param(
     [Parameter(Mandatory)] [string] $ProjectId,
     [string] $Region = "asia-south1",
     [string] $Service = "ecotrack-api",
-    [string] $GeminiModel = "gemini-2.5-flash",
+    [string] $GeminiModel = "gemini-3.5-flash",
     [string] $CloudSqlInstance = "",   # PROJECT:REGION:INSTANCE when using Cloud SQL
     [int] $MaxInstances = 3,
+    [switch] $SqliteDemo,              # no Postgres: SQLite inside one instance (data resets when it sleeps)
     [switch] $Execute
 )
 
@@ -51,8 +52,14 @@ $apis = "run.googleapis.com cloudbuild.googleapis.com artifactregistry.googleapi
 if ($CloudSqlInstance) { $apis += " sqladmin.googleapis.com" }
 Run "gcloud services enable $apis"
 
+$secrets = if ($SqliteDemo) { @("gemini-api-key") } else { @("gemini-api-key", "database-url") }
+if ($SqliteDemo) {
+    $MaxInstances = 1   # one SQLite file must not be split across instances
+    Write-Warning "SqliteDemo: data is kept in one Cloud Run instance and resets when it scales to zero."
+}
+
 Step "Secrets"
-foreach ($secret in "gemini-api-key", "database-url") {
+foreach ($secret in $secrets) {
     if ($Execute) {
         gcloud secrets describe $secret --project $ProjectId *> $null
         if ($LASTEXITCODE -ne 0) { throw "Secret '$secret' not found. Create it as shown in DEPLOY.md > Secrets." }
@@ -61,7 +68,7 @@ foreach ($secret in "gemini-api-key", "database-url") {
 }
 $projectNumber = if ($Execute) { gcloud projects describe $ProjectId --format "value(projectNumber)" } else { "PROJECT_NUMBER" }
 $runSa = "$projectNumber-compute@developer.gserviceaccount.com"
-foreach ($secret in "gemini-api-key", "database-url") {
+foreach ($secret in $secrets) {
     Run "gcloud secrets add-iam-policy-binding $secret --member serviceAccount:$runSa --role roles/secretmanager.secretAccessor --quiet"
 }
 if ($CloudSqlInstance) {
@@ -77,8 +84,8 @@ $deploy = @(
     "--max-instances $MaxInstances",
     "--memory 512Mi",
     "--timeout 120",
-    "--set-env-vars `"AUTH_MODE=firebase,FIREBASE_PROJECT_ID=$ProjectId,GEMINI_MODEL=$GeminiModel,CORS_ORIGINS=`"",
-    "--set-secrets `"GEMINI_API_KEY=gemini-api-key:latest,DATABASE_URL=database-url:latest`""
+    "--set-env-vars `"AUTH_MODE=firebase,FIREBASE_PROJECT_ID=$ProjectId,GEMINI_MODEL=$GeminiModel,CORS_ORIGINS=$(if ($SqliteDemo) { ',DATABASE_PATH=/tmp/carbon.db' })`"",
+    "--set-secrets `"GEMINI_API_KEY=gemini-api-key:latest$(if (-not $SqliteDemo) { ',DATABASE_URL=database-url:latest' })`""
 )
 if ($CloudSqlInstance) { $deploy += "--add-cloudsql-instances $CloudSqlInstance" }
 Run ($deploy -join " ")
