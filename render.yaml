@@ -13,7 +13,7 @@ services:
       - key: AUTH_MODE
         value: firebase
       - key: FIREBASE_PROJECT_ID
-        value: FIREBASE_PROJECT_ID_PLACEHOLDER
+        value: fir-projec-d1438
       - key: GEMINI_MODEL
         value: gemini-2.5-flash
       - key: GEMINI_API_KEY
