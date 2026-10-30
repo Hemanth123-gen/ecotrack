@@ -1,3 +1,4 @@
+import { localBackendEnabled } from '../localApi'
 import { useEffect, useRef, useState } from 'react'
 import { api, type DocumentPreview, type ImportItem, type ImportPreview, type User } from '../api'
 import { formatKg, todayIso } from '../format'
@@ -174,8 +175,14 @@ export function ImportDialog({
 
           {mode === 'document' && !documentsEnabled ? (
             <p className="rounded-xl border border-line bg-surface-2 p-4 text-sm text-ink-2">
-              Bill scanning uses Gemini vision. Add <code>GEMINI_API_KEY</code> to <code>backend/.env</code> and restart
-              the backend to turn it on. CSV import works without it.
+              {localBackendEnabled ? (
+                <>Bill scanning uses Gemini vision, which needs an API key this in-browser demo doesn't have. CSV import works fully.</>
+              ) : (
+                <>
+                  Bill scanning uses Gemini vision. Add <code>GEMINI_API_KEY</code> to <code>backend/.env</code> and
+                  restart the backend to turn it on. CSV import works without it.
+                </>
+              )}
             </p>
           ) : (
             <>

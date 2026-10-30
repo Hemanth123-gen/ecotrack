@@ -1,3 +1,4 @@
+import { localBackendEnabled } from '../localApi'
 import { useEffect, useRef, useState } from 'react'
 import Markdown from 'react-markdown'
 import { api, type ToolCall, type User } from '../api'
@@ -122,8 +123,18 @@ export function ChatPanel({ user, onDataChanged, ask }: { user: User; onDataChan
       <div ref={scrollRef} className="min-h-0 flex-1 space-y-4 overflow-y-auto px-4 py-4" aria-live="polite">
         {agentEnabled === false && (
           <div className="rounded-xl border border-line bg-surface-2 p-3 text-sm text-ink-2">
-            <span className="font-medium text-ink">Chat is off.</span> Add <code>GEMINI_API_KEY</code> to{' '}
-            <code>backend/.env</code> and restart the backend. The dashboard and quick log still work.
+            <span className="font-medium text-ink">Chat is off.</span>{' '}
+            {localBackendEnabled ? (
+              <>
+                This in-browser demo has no Gemini API key, which the AI assistant needs. Everything else (logging,
+                imports, goals, insights, what-if) works fully.
+              </>
+            ) : (
+              <>
+                Add <code>GEMINI_API_KEY</code> to <code>backend/.env</code> and restart the backend. The dashboard
+                and quick log still work.
+              </>
+            )}
           </div>
         )}
 
