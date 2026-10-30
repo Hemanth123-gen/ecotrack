@@ -1,0 +1,10 @@
+# What `gcloud run deploy --source` uploads to Cloud Build (never the venv, local DB or secrets)
+.gcloudignore
+.venv/
+__pycache__/
+**/__pycache__/
+.pytest_cache/
+tests/
+*.db
+.env
+.env.*

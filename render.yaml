@@ -1,0 +1,33 @@
+# Render Blueprint: free web service (app + API) and free Postgres.
+# In the Render dashboard: New > Blueprint > pick this repo. It asks only for GEMINI_API_KEY.
+services:
+  - type: web
+    name: ecotrack
+    runtime: docker
+    plan: free
+    region: singapore
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: AUTH_MODE
+        value: firebase
+      - key: FIREBASE_PROJECT_ID
+        value: FIREBASE_PROJECT_ID_PLACEHOLDER
+      - key: GEMINI_MODEL
+        value: gemini-2.5-flash
+      - key: GEMINI_API_KEY
+        sync: false # entered once in the Render dashboard; never stored in the repo
+      - key: DATABASE_URL
+        fromDatabase:
+          name: ecotrack-db
+          property: connectionString
+
+databases:
+  # Free Render Postgres expires 30 days after creation. To keep data longer, create a free Neon
+  # database and replace DATABASE_URL with its connection string in the Render dashboard.
+  - name: ecotrack-db
+    plan: free
+    region: singapore
+    databaseName: ecotrack
+    user: ecotrack

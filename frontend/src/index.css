@@ -1,0 +1,89 @@
+@import 'tailwindcss';
+
+/* Tokens follow the dataviz reference palette; dark values are their own validated steps. */
+:root {
+  color-scheme: light;
+  --page: #f9f9f7;
+  --surface: #fcfcfb;
+  --surface-2: #f0efec;
+  --ink: #0b0b0b;
+  --ink-2: #52514e;
+  --muted: #6f6d68;
+  --grid: #e1e0d9;
+  --axis: #c3c2b7;
+  --border: rgba(11, 11, 11, 0.1);
+  --accent: #006300;
+  --accent-ink: #ffffff;
+  --good: #006300;
+  --critical: #d03b3b;
+  --serious: #ec835a;
+
+  --cat-transport: #2a78d6;
+  --cat-energy: #eb6834;
+  --cat-food: #1baf7a;
+  --cat-goods: #eda100;
+  --cat-waste: #e87ba4;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --page: #0d0d0d;
+    --surface: #1a1a19;
+    --surface-2: #262624;
+    --ink: #f0efec;
+    --ink-2: #c3c2b7;
+    --muted: #898781;
+    --grid: #2c2c2a;
+    --axis: #383835;
+    --border: rgba(255, 255, 255, 0.1);
+    --accent: #0ca30c;
+    --accent-ink: #0b0b0b;
+    --good: #0ca30c;
+    --critical: #e66767;
+    --serious: #ec835a;
+
+    --cat-transport: #3987e5;
+    --cat-energy: #d95926;
+    --cat-food: #199e70;
+    --cat-goods: #c98500;
+    --cat-waste: #d55181;
+  }
+}
+
+@theme inline {
+  --color-page: var(--page);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-muted: var(--muted);
+  --color-line: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-good: var(--good);
+  --color-critical: var(--critical);
+  --color-serious: var(--serious);
+  --font-sans: system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+body {
+  background: var(--page);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  margin: 0;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Markdown in chat bubbles */
+.prose-chat p { margin: 0 0 0.5rem; }
+.prose-chat p:last-child { margin-bottom: 0; }
+.prose-chat ul, .prose-chat ol { margin: 0.25rem 0 0.5rem; padding-left: 1.25rem; }
+.prose-chat ul { list-style: disc; }
+.prose-chat ol { list-style: decimal; }
+.prose-chat strong { font-weight: 600; }
+.prose-chat table { border-collapse: collapse; margin: 0.5rem 0; font-size: 0.8125rem; }
+.prose-chat th, .prose-chat td { border: 1px solid var(--border); padding: 0.25rem 0.5rem; text-align: left; }

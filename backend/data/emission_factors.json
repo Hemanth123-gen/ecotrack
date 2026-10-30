@@ -1,0 +1,51 @@
+{
+  "version": "2026.1",
+  "unit_convention": "value = kg CO2e per one unit of activity",
+  "notes": "Approximate factors for development. Region-specific entries win over GLOBAL. Verify against the latest source editions before production use. Transport by km for bus/metro/train/flight/taxi/auto is per passenger-km; car and two-wheeler are per vehicle-km.",
+  "factors": [
+    {"key": "electricity_grid", "label": "Grid electricity", "category": "energy", "scope": 2, "unit": "kWh", "value": 0.716, "region": "IN", "source": "CEA CO2 Baseline Database v19 (FY2022-23), weighted average"},
+    {"key": "electricity_grid", "label": "Grid electricity", "category": "energy", "scope": 2, "unit": "kWh", "value": 0.481, "region": "GLOBAL", "source": "IEA world average (approx.)"},
+    {"key": "electricity_rooftop_solar", "label": "Rooftop solar electricity", "category": "energy", "scope": 2, "unit": "kWh", "value": 0.041, "region": "GLOBAL", "source": "IPCC AR5 lifecycle median, solar PV"},
+    {"key": "lpg", "label": "LPG (cooking gas)", "category": "energy", "scope": 1, "unit": "kg", "value": 2.94, "region": "GLOBAL", "source": "IPCC 2006 default combustion factor"},
+    {"key": "png", "label": "Piped natural gas", "category": "energy", "scope": 1, "unit": "scm", "value": 2.02, "region": "GLOBAL", "source": "UK DEFRA GHG conversion factors (natural gas, per m3)"},
+    {"key": "diesel_generator", "label": "Diesel generator fuel", "category": "energy", "scope": 1, "unit": "litre", "value": 2.68, "region": "GLOBAL", "source": "Diesel combustion, IPCC/DEFRA"},
+
+    {"key": "petrol_fuel", "label": "Petrol (vehicle fuel)", "category": "transport", "scope": 1, "unit": "litre", "value": 2.31, "region": "GLOBAL", "source": "Petrol combustion, IPCC/EPA"},
+    {"key": "diesel_fuel", "label": "Diesel (vehicle fuel)", "category": "transport", "scope": 1, "unit": "litre", "value": 2.68, "region": "GLOBAL", "source": "Diesel combustion, IPCC/EPA"},
+    {"key": "cng_fuel", "label": "CNG (vehicle fuel)", "category": "transport", "scope": 1, "unit": "kg", "value": 2.54, "region": "GLOBAL", "source": "Natural gas combustion, IPCC"},
+    {"key": "car_petrol", "label": "Petrol car", "category": "transport", "scope": 1, "unit": "km", "value": 0.140, "region": "IN", "source": "India GHG Program road transport factors (avg passenger car)"},
+    {"key": "car_diesel", "label": "Diesel car", "category": "transport", "scope": 1, "unit": "km", "value": 0.150, "region": "IN", "source": "India GHG Program road transport factors (avg passenger car)"},
+    {"key": "car_cng", "label": "CNG car", "category": "transport", "scope": 1, "unit": "km", "value": 0.100, "region": "IN", "source": "India GHG Program road transport factors (approx.)"},
+    {"key": "car_ev", "label": "Electric car", "category": "transport", "scope": 2, "unit": "km", "value": 0.107, "region": "IN", "source": "0.15 kWh/km x CEA grid factor"},
+    {"key": "two_wheeler_petrol", "label": "Petrol two-wheeler", "category": "transport", "scope": 1, "unit": "km", "value": 0.035, "region": "IN", "source": "India GHG Program road transport factors"},
+    {"key": "two_wheeler_ev", "label": "Electric two-wheeler", "category": "transport", "scope": 2, "unit": "km", "value": 0.018, "region": "IN", "source": "0.025 kWh/km x CEA grid factor"},
+    {"key": "auto_rickshaw_cng", "label": "Auto-rickshaw (CNG)", "category": "transport", "scope": 3, "unit": "km", "value": 0.107, "region": "IN", "source": "India GHG Program, 3-wheeler CNG"},
+    {"key": "taxi", "label": "Taxi / ride-hailing", "category": "transport", "scope": 3, "unit": "km", "value": 0.140, "region": "IN", "source": "Assumed equal to avg petrol car"},
+    {"key": "bus", "label": "City bus", "category": "transport", "scope": 3, "unit": "km", "value": 0.020, "region": "IN", "source": "Approx. per passenger-km, Indian city bus"},
+    {"key": "metro", "label": "Metro rail", "category": "transport", "scope": 3, "unit": "km", "value": 0.015, "region": "IN", "source": "Approx. per passenger-km, Indian metro systems"},
+    {"key": "train", "label": "Indian Railways", "category": "transport", "scope": 3, "unit": "km", "value": 0.008, "region": "IN", "source": "Approx. per passenger-km, Indian Railways"},
+    {"key": "flight_domestic", "label": "Domestic flight (economy)", "category": "transport", "scope": 3, "unit": "km", "value": 0.150, "region": "GLOBAL", "source": "UK DEFRA short-haul economy, excl. radiative forcing"},
+    {"key": "flight_international", "label": "International flight (economy)", "category": "transport", "scope": 3, "unit": "km", "value": 0.140, "region": "GLOBAL", "source": "UK DEFRA long-haul economy, excl. radiative forcing"},
+
+    {"key": "beef", "label": "Beef", "category": "food", "scope": 3, "unit": "kg", "value": 60.0, "region": "GLOBAL", "source": "Poore & Nemecek (2018), median"},
+    {"key": "mutton", "label": "Mutton / lamb", "category": "food", "scope": 3, "unit": "kg", "value": 24.0, "region": "GLOBAL", "source": "Poore & Nemecek (2018), median"},
+    {"key": "chicken", "label": "Chicken", "category": "food", "scope": 3, "unit": "kg", "value": 6.9, "region": "GLOBAL", "source": "Poore & Nemecek (2018), median"},
+    {"key": "fish", "label": "Fish", "category": "food", "scope": 3, "unit": "kg", "value": 5.1, "region": "GLOBAL", "source": "Poore & Nemecek (2018), median"},
+    {"key": "eggs", "label": "Eggs", "category": "food", "scope": 3, "unit": "kg", "value": 4.5, "region": "GLOBAL", "source": "Poore & Nemecek (2018), median"},
+    {"key": "milk", "label": "Milk", "category": "food", "scope": 3, "unit": "litre", "value": 3.2, "region": "GLOBAL", "source": "Poore & Nemecek (2018), median"},
+    {"key": "paneer_cheese", "label": "Paneer / cheese", "category": "food", "scope": 3, "unit": "kg", "value": 21.0, "region": "GLOBAL", "source": "Poore & Nemecek (2018), cheese median"},
+    {"key": "rice", "label": "Rice", "category": "food", "scope": 3, "unit": "kg", "value": 4.0, "region": "GLOBAL", "source": "Poore & Nemecek (2018), median"},
+    {"key": "wheat", "label": "Wheat / atta", "category": "food", "scope": 3, "unit": "kg", "value": 1.4, "region": "GLOBAL", "source": "Poore & Nemecek (2018), median"},
+    {"key": "pulses", "label": "Pulses / dal", "category": "food", "scope": 3, "unit": "kg", "value": 0.9, "region": "GLOBAL", "source": "Poore & Nemecek (2018), other pulses median"},
+    {"key": "vegetables", "label": "Vegetables", "category": "food", "scope": 3, "unit": "kg", "value": 0.5, "region": "GLOBAL", "source": "Poore & Nemecek (2018), approx."},
+    {"key": "fruits", "label": "Fruits", "category": "food", "scope": 3, "unit": "kg", "value": 0.7, "region": "GLOBAL", "source": "Poore & Nemecek (2018), approx."},
+
+    {"key": "smartphone", "label": "New smartphone", "category": "goods", "scope": 3, "unit": "item", "value": 70.0, "region": "GLOBAL", "source": "Manufacturer lifecycle reports, approx."},
+    {"key": "laptop", "label": "New laptop", "category": "goods", "scope": 3, "unit": "item", "value": 250.0, "region": "GLOBAL", "source": "Manufacturer lifecycle reports, approx."},
+    {"key": "clothing_item", "label": "New clothing item", "category": "goods", "scope": 3, "unit": "item", "value": 15.0, "region": "GLOBAL", "source": "Industry estimates, average garment, approx."},
+
+    {"key": "waste_landfill", "label": "Mixed waste to landfill", "category": "waste", "scope": 3, "unit": "kg", "value": 0.5, "region": "GLOBAL", "source": "UK DEFRA residual waste to landfill, approx."},
+    {"key": "waste_recycled", "label": "Recycled waste", "category": "waste", "scope": 3, "unit": "kg", "value": 0.02, "region": "GLOBAL", "source": "UK DEFRA closed-loop recycling, approx."},
+    {"key": "waste_composted", "label": "Composted food waste", "category": "waste", "scope": 3, "unit": "kg", "value": 0.01, "region": "GLOBAL", "source": "UK DEFRA composting, approx."}
+  ]
+}
